@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os/exec"
 )
 
 func main() {
@@ -20,6 +21,11 @@ func MakeConnection() {
 		log.Panicln("Unable to open unix socket:", err)
 	}
 	defer listener.Close()
+
+	cmd := exec.Command("go", "run", "./collect/collect.go", addr.Name)
+	if err := cmd.Start(); err != nil {
+		log.Panicln("Unable to run collector:", err)
+	}
 
 	conn, err := listener.AcceptUnix()
 	if err != nil {
