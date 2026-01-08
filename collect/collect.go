@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 )
 
 func main() {
@@ -11,7 +12,14 @@ func main() {
 
 func SendInformation() {
 	network := "unix"
-	addr, err := net.ResolveUnixAddr(network, "/tmp/gosearch.sock")
+	if len(os.Args) < 1 {
+		log.Panicln(
+			"Not enough command line args given. \n",
+			"Must provide the socket path as a command line argument.",
+		)
+	}
+	networkAddress := os.Args[1]
+	addr, err := net.ResolveUnixAddr(network, networkAddress)
 	if err != nil {
 		log.Panicln("Error resolving the socket addr:", err)
 	}
