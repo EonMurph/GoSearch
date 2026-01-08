@@ -7,10 +7,6 @@ import (
 	"os/exec"
 )
 
-func main() {
-	MakeConnection()
-}
-
 func MakeConnection() {
 	addr := net.UnixAddr{
 		Name: "/tmp/gosearch.sock",
